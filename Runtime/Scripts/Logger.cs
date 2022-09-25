@@ -9,9 +9,9 @@ namespace Volorf.VRLogger
     [RequireComponent(typeof(FollowHead.FollowHead))]
     public class Logger : MonoBehaviour
     {
-        [Header("Entry")]
-        [SerializeField] private bool clearLogForNewEntry = false;
-        [SerializeField] private bool startNewEntryWithNewLine = true;
+        [Header("New Entry")]
+        [SerializeField] private bool clearLog = false;
+        [SerializeField] private bool startFromNewLine = true;
         
         [Space(8)]
         [Header("Style")]
@@ -64,18 +64,18 @@ namespace Volorf.VRLogger
         
         public void AddText(string text)
         {
-            if (clearLogForNewEntry) Clear();
+            if (clearLog) Clear();
 
             string oldMessage = _message;
             _message = text;
-            if (startNewEntryWithNewLine) _message += "\n";
+            if (startFromNewLine) _message += "\n";
             _message += oldMessage;
             label.text = _message;
         }
 
         public void Clear() => _message = "";
 
-        public void SetClearLogForNewEntry(bool b) => clearLogForNewEntry = b;
+        public void SetClearLogForNewEntry(bool b) => clearLog = b;
     }
 }
 
