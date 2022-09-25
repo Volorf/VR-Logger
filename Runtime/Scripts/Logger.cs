@@ -67,8 +67,7 @@ namespace Volorf.VRLogger
             string tempMessage = _message;
             if (lineAsEntrySeparator)
             {
-                tempMessage += "\n";
-                _message = text;
+                _message = text + "\n";
                 _message += tempMessage;
             }
             else
