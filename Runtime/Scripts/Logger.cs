@@ -1,8 +1,6 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Volorf.FollowHead;
 
 namespace Volorf.VRLogger
 {
@@ -10,8 +8,8 @@ namespace Volorf.VRLogger
     public class Logger : MonoBehaviour
     {
         [Header("New Entry")]
-        [SerializeField] private bool clearLog = false;
-        [SerializeField] private bool startFromNewLine = true;
+        [SerializeField] private bool clearLogForNewEntry = false;
+        [SerializeField] private bool lineAsEntrySeparator = true;
         
         [Space(8)]
         [Header("Style")]
@@ -64,18 +62,27 @@ namespace Volorf.VRLogger
         
         public void AddText(string text)
         {
-            if (clearLog) Clear();
+            if (clearLogForNewEntry) Clear();
 
-            string oldMessage = _message;
-            _message = text;
-            if (startFromNewLine) _message += "\n";
-            _message += oldMessage;
+            string tempMessage = _message;
+            if (lineAsEntrySeparator)
+            {
+                tempMessage += "\n";
+                _message = text;
+                _message += tempMessage;
+            }
+            else
+            {
+                tempMessage += text;
+                _message = tempMessage;
+            }
+  
             label.text = _message;
         }
 
         public void Clear() => _message = "";
 
-        public void SetClearLogForNewEntry(bool b) => clearLog = b;
+        public void SetClearLogForNewEntry(bool b) => clearLogForNewEntry = b;
     }
 }
 
