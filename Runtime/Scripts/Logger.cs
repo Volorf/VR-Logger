@@ -2,25 +2,28 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Volorf.VRLogger;
 using Volorf.FollowHead;
 
-namespace Volorf.Logger
+namespace Volorf.VRLogger
 {
     [RequireComponent(typeof(FollowHead.FollowHead))]
     public class Logger : MonoBehaviour
     {
-        [SerializeField] private LoggerSettings settings;
+        [Header("Entry")]
+        [SerializeField] private bool clearLogForNewEntry = false;
+        [SerializeField] private bool startNewEntryWithNewLine = true;
         
+        [Space(8)]
+        [Header("Style")]
+        [SerializeField] private Color backgroundColor;
+        [SerializeField] private Color textColor;
+
         [Space(8)]
         [Header("UI Elements")]
         [SerializeField] private TextMeshProUGUI label;
         [SerializeField] private Image background;
         
         private string _message = "";
-        private bool _clearLogForNewEntry;
-        private bool _startNewEntryWithNewLine;
-        
         
         public static Logger Instance
         {
@@ -32,7 +35,7 @@ namespace Volorf.Logger
 
         private static Logger _logger;
 
-        private int counter = 0;
+        private int _counter = 0;
 
         private void Awake()
         {
@@ -48,45 +51,31 @@ namespace Volorf.Logger
 
         private void Start()
         {
-            if (settings != null)
-            {
-                background.color = settings.backgroundColor;
-                label.color = settings.textColor;
-                _clearLogForNewEntry = settings.clearLogForNewEntry;
-                _startNewEntryWithNewLine = settings.startNewEntryWithNewLine;
-            }
-            else
-            {
-                Debug.LogError("The instance of Logger doesn't have Logger Settings");
-                background.color = Color.magenta;
-                label.color = Color.yellow;
-                label.text = "No Logger Settings";
-                _clearLogForNewEntry = false;
-                _startNewEntryWithNewLine = true;
-            }
+            background.color = backgroundColor;
+            label.color = textColor;
         }
 
-        [ContextMenu("Test AddText()")]
-        public void TestAddText()
+        [ContextMenu("Display Test Entry")]
+        public void DisplayTestEntry()
         {
-            counter++;
-            AddText("It works. " + counter);
+            _counter++;
+            AddText("Entry #" + _counter);
         }
         
         public void AddText(string text)
         {
-            if (_clearLogForNewEntry) Clear();
+            if (clearLogForNewEntry) Clear();
 
             string oldMessage = _message;
             _message = text;
-            if (_startNewEntryWithNewLine) _message += "\n";
+            if (startNewEntryWithNewLine) _message += "\n";
             _message += oldMessage;
             label.text = _message;
         }
 
         public void Clear() => _message = "";
 
-        public void SetClearLogForNewEntry(bool b) => _clearLogForNewEntry = b;
+        public void SetClearLogForNewEntry(bool b) => clearLogForNewEntry = b;
     }
 }
 
