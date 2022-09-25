@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,28 +8,29 @@ namespace Volorf.VRLogger
     [RequireComponent(typeof(FollowHead.FollowHead))]
     public class Logger : MonoBehaviour
     {
-        [Header("New Entry")]
+        [Header("New Entry")] 
         [SerializeField] private bool clearLogForNewEntry = false;
         [SerializeField] private bool lineAsEntrySeparator = true;
-        
-        [Space(8)]
-        [Header("Style")]
-        [SerializeField] private Color backgroundColor;
+        [SerializeField] private bool useCaretAnimation = true;
+
+        [Space(8)] [Header("Style")] [SerializeField]
+        private Color backgroundColor;
+
         [SerializeField] private Color textColor;
 
-        [Space(8)]
-        [Header("UI Elements")]
-        [SerializeField] private TextMeshProUGUI label;
+        [Space(8)] [Header("UI Elements")] [SerializeField]
+        private TextMeshProUGUI label;
+
         [SerializeField] private Image background;
-        
+
         private string _message = "";
         
+        // Caret Stuff
+        private string _caret = "|";
+
         public static Logger Instance
         {
-            get
-            {
-                return _logger;
-            }
+            get { return _logger; }
         }
 
         private static Logger _logger;
@@ -45,6 +47,9 @@ namespace Volorf.VRLogger
             {
                 _logger = this;
             }
+
+            _message = label.text;
+            if (useCaretAnimation) StartCoroutine(CaretAnimation());
         }
 
         private void Start()
@@ -59,15 +64,17 @@ namespace Volorf.VRLogger
             _counter++;
             AddText("Entry #" + _counter);
         }
-        
+
         public void AddText(string text)
         {
+            _message = RemoveCaretAtEndIfItThere(_message, _caret);
+            
             if (clearLogForNewEntry) Clear();
 
             string tempMessage = _message;
             if (lineAsEntrySeparator)
             {
-                _message = text + "\n";
+                _message = "\n" + text;
                 _message += tempMessage;
             }
             else
@@ -75,13 +82,87 @@ namespace Volorf.VRLogger
                 tempMessage += text;
                 _message = tempMessage;
             }
-  
+
             label.text = _message;
         }
 
         public void Clear() => _message = "";
 
         public void SetClearLogForNewEntry(bool b) => clearLogForNewEntry = b;
+        
+
+        private IEnumerator CaretAnimation()
+        {
+            while (true)
+            {
+                if (lineAsEntrySeparator)
+                {
+                    string processedStr = RemoveCaretAtStartIfItThere(_message, _caret);
+
+                    if (_message.Length == processedStr.Length)
+                    {
+                        string tempMessage = _message;
+                        _message = _caret  + tempMessage;
+                    }
+                    else
+                    {
+                        _message = processedStr;
+                    }
+                }
+                else
+                {
+                    string processedStr = RemoveCaretAtEndIfItThere(_message, _caret);
+
+                    if (_message.Length == processedStr.Length)
+                    {
+                        _message += _caret;
+                    }
+                    else
+                    {
+                        _message = processedStr;
+                    }
+                }
+                
+                label.text = _message;
+              
+                yield return new WaitForSeconds(0.5f);
+            }
+        }
+
+        // TODO: Unify the methods
+        private string RemoveCaretAtEndIfItThere(string message, string caret)
+        {
+            string str = message;
+            int l = str.Length;
+            
+            if (l == 0) return str;
+            
+            string lastLetter = str.Substring(l - 1, 1);
+
+            if (lastLetter == caret)
+            {
+                str = str.Substring(0, l - 1);
+            }
+
+            return str;
+        }
+
+        private string RemoveCaretAtStartIfItThere(string message, string caret)
+        {
+            string str = message;
+            int l = str.Length;
+
+            if (l == 0) return str;
+
+            string firstLetter = str.Substring(0, 1);
+
+            if (firstLetter == caret)
+            {
+                str = str.Substring(1, l - 1);
+            }
+
+            return str;
+        }
     }
 }
 
