@@ -1,6 +1,6 @@
 {
   "name": "com.volorf.vr-logger",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "displayName": "VR Logger",
   "description": "Simple Logger for VR.",
   "unity": "2019.4",
