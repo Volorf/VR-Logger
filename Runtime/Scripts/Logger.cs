@@ -27,6 +27,7 @@ namespace Volorf.VRLogger
         
         // Caret Stuff
         private string _caret = "|";
+        private bool _canAddCaret = true;
 
         public static Logger Instance
         {
@@ -67,7 +68,7 @@ namespace Volorf.VRLogger
 
         public void AddText(string text)
         {
-
+            _canAddCaret = false;
             if (clearLogForNewEntry) Clear();
 
             string tempMessage = "";
@@ -90,6 +91,7 @@ namespace Volorf.VRLogger
             }
 
             label.text = _message;
+            _canAddCaret = true;
         }
 
         public void Clear() => _message = "";
@@ -108,7 +110,9 @@ namespace Volorf.VRLogger
                     if (_message.Length == processedStr.Length)
                     {
                         string tempMessage = _message;
-                        _message = _caret  + tempMessage;
+                        
+                        if (_canAddCaret) _message = _caret  + tempMessage;
+                        
                     }
                     else
                     {
@@ -121,7 +125,7 @@ namespace Volorf.VRLogger
 
                     if (_message.Length == processedStr.Length)
                     {
-                        _message += _caret;
+                        if (_canAddCaret) _message += _caret;
                     }
                     else
                     {
