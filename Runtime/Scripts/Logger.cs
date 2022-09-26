@@ -67,20 +67,26 @@ namespace Volorf.VRLogger
 
         public void AddText(string text)
         {
-            _message = RemoveCaretAtEndIfItThere(_message, _caret);
-            
+
             if (clearLogForNewEntry) Clear();
 
-            string tempMessage = _message;
+            string tempMessage = "";
             if (lineAsEntrySeparator)
             {
-                _message = "\n" + text;
-                _message += tempMessage;
+                if (useCaretAnimation)
+                {
+                    RemoveCaretAtStartIfItThere(_message, _caret);
+                    tempMessage = "\n" + text;
+                }
+                else
+                {
+                    tempMessage = text + "\n";
+                }
+                _message = tempMessage + _message;
             }
             else
             {
-                tempMessage += text;
-                _message = tempMessage;
+                _message += text;
             }
 
             label.text = _message;
@@ -124,7 +130,7 @@ namespace Volorf.VRLogger
                 }
                 
                 label.text = _message;
-              
+
                 yield return new WaitForSeconds(0.5f);
             }
         }
