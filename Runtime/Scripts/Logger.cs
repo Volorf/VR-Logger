@@ -76,7 +76,7 @@ namespace Volorf.VRLogger
             {
                 if (useCaretAnimation)
                 {
-                    RemoveCaretAtStartIfItThere(_message, _caret);
+                    _message = RemoveCaretAtStartIfItThere(_message, _caret);
                     tempMessage = "\n" + text;
                 }
                 else
