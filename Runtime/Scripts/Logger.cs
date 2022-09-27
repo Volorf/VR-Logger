@@ -92,6 +92,7 @@ namespace Volorf.VRLogger
             }
             else
             {
+                _message = RemoveCaretAtEndIfItThere(_message, _caret);
                 _message += text;
             }
 
