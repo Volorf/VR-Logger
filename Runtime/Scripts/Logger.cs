@@ -66,6 +66,11 @@ namespace Volorf.VRLogger
             AddText("Entry #" + _counter);
         }
 
+        public void AddText(float value)
+        {
+            AddText(value.ToString());
+        }
+
         public void AddText(string text)
         {
             _canAddCaret = false;
