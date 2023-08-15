@@ -65,8 +65,23 @@ namespace Volorf.VRLogger
             _counter++;
             AddText("Entry #" + _counter);
         }
+        
+        public void AddText(int value)
+        {
+            AddText(value.ToString());
+        }
 
         public void AddText(float value)
+        {
+            AddText(value.ToString());
+        }
+        
+        public void AddText(Vector2 value)
+        {
+            AddText(value.ToString());
+        }
+        
+        public void AddText(Vector3 value)
         {
             AddText(value.ToString());
         }
