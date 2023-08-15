@@ -58,7 +58,9 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
+  m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -145,14 +147,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 3642953912387282937}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5a986432f153df479a93903bf201eeb, type: 3}
+  m_Script: {fileID: 11500000, guid: e6c02234a9ae7334a89777ab3489450b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   clearLogForNewEntry: 0
   lineAsEntrySeparator: 1
   useCaretAnimation: 1
-  backgroundColor: {r: 0, g: 0, b: 0, a: 0.8}
-  textColor: {r: 0, g: 1, b: 0, a: 1}
+  backgroundColor: {r: 0, g: 0, b: 0, a: 1}
+  textColor: {r: 0.3202616, g: 1, b: 0, a: 1}
   label: {fileID: 5292655058955166978}
   background: {fileID: 2396884510606822508}
 --- !u!114 &8906738284834612240
